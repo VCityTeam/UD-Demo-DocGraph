@@ -1,0 +1,14 @@
+version: '3.0'
+
+services:
+
+  blazegraph:
+    image: vcity/blazegraph-cors
+    ports:
+      - "${BLAZEGRAPH_PORT}:8080"
+
+  udviz:
+    build:
+      context: ./ud-viz-context
+    ports:
+      - ${UD_VIZ_PORT}:8000
