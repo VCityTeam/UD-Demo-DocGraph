@@ -1,92 +1,148 @@
 {
-  "assets": {
-    "iconFolder": "../assets/icons",
-    "imageFolder": "../assets/img",
-    "logos": ["logo-liris.png", "logo-univ-lyon.png"]
-  },
   "server": {
-    "url": "http://rict.liris.cnrs.fr:1525/",
-    "login": "login",
-    "user": "user",
-    "userMe": "user/me",
-    "document": "document",
-    "documentToValidate": "document/in_validation",
-    "comment": "comment",
-    "validate": "document/validate",
-    "file": "file",
-    "guidedTour": "guidedTour",
-    "link": "link"
+    "url": "http://localhost:8001/blazegraph/",
+    "url_parameters": "sparql?format=json&query=",
+    "options": {}
   },
   "extents": {
-    "min_x": "1840158",
-    "max_x": "1851647",
-    "min_y": "5171502",
-    "max_y": "5180575"
-  },
-  "helpWindow": {
-    "htmlPaths": [
-      "../assets/html/contribute.html",
-      "../assets/html/camera.html"
-    ]
-  },
-  "projection": "EPSG:3946",
-  "background_image_layer": {
-    "url": "https://download.data.grandlyon.com/wms/grandlyon",
-    "name": "Ortho2018_Dalle_unique_8cm_CC46",
-    "version": "1.3.0",
-    "format": "image/jpeg",
-    "layer_name": "Base_Map",
-    "transparent": true
-  },
-  "elevation_layer": {
-    "url": "https://download.data.grandlyon.com/wms/grandlyon",
-    "name": "MNT2018_Altitude_2m",
-    "format": "image/jpeg",
-    "layer_name": "wms_elevation_test"
-  },
-  "camera": {
-    "position": {
-      "range": "2500",
-      "heading": "-49.6",
-      "tilt": "30"
-    }
+    "name": "EPSG:3946",
+    "west": 1837860,
+    "east": 1851647,
+    "south": 5169347,
+    "north": 5180575
   },
   "3DTilesLayers": [
     {
-      "id": "Temporal_layer",
-      "url": "https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Temporal/Villeurbanne_GratteCiel_Temporal_2009-2012-2015-2018_TileSet/tileset.json",
-      "color": "0xFFFFFF",
-      "extensions": ["3DTILES_temporal"]
+      "id": "Lyon-1",
+      "url": "https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/2018/Lyon-1_2018/tileset.json"
     }
   ],
-  "temporalModule": {
-    "view": "SLIDERWINDOW",
-    "minTime": 2009,
-    "maxTime": 2018,
-    "currentTime": 2018,
-    "timeStep": 1
+  "sparqlModule": {
+    "height": 500,
+    "width": 500,
+    "fontSize": 4,
+    "queries": [
+      {
+        "title": "basic_document_query",
+        "formats": {
+          "graph": "Graph",
+          "table": "Table"
+        },
+        "filepath": "./assets/queries/basic_document_query.rq"
+      },
+      {
+        "title": "get_document_references",
+        "formats": {
+          "graph": "Graph",
+          "table": "Table"
+        },
+        "filepath": "./assets/queries/get_document_references.rq"
+      }
+    ],
+    "namespaceLabels": {
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
+      "http://www.w3.org/2000/01/rdf-schema#": "rdfs",
+      "http://www.w3.org/2002/07/owl#": "owl",
+      "http://www.w3.org/2001/XMLSchema#": "xsd",
+      "https://w3id.org/list#": "list",
+      "http://www.w3.org/2004/02/skos/core#": "skos",
+      "http://www.opengis.net/gml#": "gml",
+      "http://www.opengis.net/ont/gml#": "gmlowl",
+      "http://www.opengis.net/def/uom/OGC/1.0/": "units",
+      "http://www.opengis.net/ont/geosparql#": "geo",
+      "http://www.opengis.net/def/function/geosparql/": "geof",
+      "http://strdf.di.uoa.gr/ontology#": "strdf",
+      "http://www.w3.org/1999/xlink#": "xlink",
+      "https://w3id.org/express#": "express",
+      "http://standards.buildingsmart.org/IFC/DEV/IFC2x3/TC1/OWL#": "ifc",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/core#": "core",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/building#": "bldg",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/bridge#": "brid",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/landuse#": "luse",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/appearance#": "app",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/relief#": "dem",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/cityfurniture#": "frn",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/generics#": "gen",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/cityobjectgroup#": "grp",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/texturedsurface#": "tex",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/tunnel#": "tun",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/vegetation#": "veg",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/waterbody#": "wtr",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/3.0/versioning#": "vers",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/Workspace/3.0/transactiontypes#": "type"
+    }
   },
-  "cityObjects": {
-    "styles": {
-      "layerDefault": {
-        "materialProps": {
-          "color": "#ffa14f"
-        }
+  "frame3DPlanar": [
+    {
+      "domElementClass": "full_screen",
+      "hasItownsControls": false,
+      "range": 3000,
+      "heading": -49.6,
+      "tilt": 17,
+      "coordinates": {
+        "x": 1844753,
+        "y": 5174961
       },
-      "selection": {
-        "materialProps": {
-          "color": "#13ddef"
+      "sceneConfig": {
+        "cameraFov": 90,
+        "shadowMapSize": 2046,
+        "sky": {
+          "paths": [
+            "./assets/img/sky_cubemap/negX.jpg",
+            "./assets/img/sky_cubemap/posX.jpg",
+            "./assets/img/sky_cubemap/negY.jpg",
+            "./assets/img/sky_cubemap/posY.jpg",
+            "./assets/img/sky_cubemap/posZ.jpg",
+            "./assets/img/sky_cubemap/negZ.jpg"
+          ],
+          "color": {
+            "r": 0.4,
+            "g": 0.6,
+            "b": 0.8
+          },
+          "sun_position": {
+            "offset": 10,
+            "phi": 1,
+            "theta": 0.3
+          }
         }
+      }
+    },
+    {
+      "domElementClass": "full_screen",
+      "hasItownsControls": true,
+      "range": 4000,
+      "heading": -49.6,
+      "tilt": 17,
+      "coordinates": {
+        "x": 1844753,
+        "y": 5174961
       },
-      "linkedWithDisplayedDocument": {
-        "materialProps": {
-          "color": "#4c5af7"
+      "sceneConfig": {
+        "cameraFov": 30,
+        "shadowMapSize": 2046,
+        "sky": {
+          "paths": [
+            "./assets/img/sky_cubemap/negX.jpg",
+            "./assets/img/sky_cubemap/posX.jpg",
+            "./assets/img/sky_cubemap/negY.jpg",
+            "./assets/img/sky_cubemap/posY.jpg",
+            "./assets/img/sky_cubemap/posZ.jpg",
+            "./assets/img/sky_cubemap/negZ.jpg"
+          ],
+          "color": {
+            "r": 0.4,
+            "g": 0.6,
+            "b": 0.8
+          },
+          "sun_position": {
+            "offset": 10,
+            "phi": 1,
+            "theta": 0.3
+          }
         }
       }
     }
-  },
-  "sparqlModule": {
-    "url": "http://localhost:8997/strabon/",
-    "url_parameters": "Query?handle=download&format=SPARQL/JSON&view=HTML&query="
-  }
+  ]
 }
+
