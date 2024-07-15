@@ -1,0 +1,43 @@
+#logoLiris {
+  height: 60px;
+  opacity: 1;
+  margin: 5px 10px;
+}
+
+#logo-div {
+  position: fixed;
+  display: flex;
+  padding: 4px;
+  border-radius: 8px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ffffff60;
+  align-items: center;
+  z-index: 5;
+}
+
+#icon-div {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  top: 20px;
+  right: 20px;
+  align-items: center;
+  z-index: 5;
+}
+
+#icon-div img {
+  opacity: 0.9;
+}
+
+#iconInfo {
+  width: 45px;
+  padding: 5px;
+  color: white;
+}
+
+#iconHelp {
+  width: 36px;
+  padding: 5px;
+}

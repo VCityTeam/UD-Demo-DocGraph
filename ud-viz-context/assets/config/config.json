@@ -1,0 +1,189 @@
+{
+  "crs": {
+    "name": "EPSG:3946",
+    "transform": "+proj=lcc +lat_1=45.25 +lat_2=46.75 +lat_0=46 +lon_0=3 +x_0=1700000 +y_0=5200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+  },
+  "extents": {
+    "name": "EPSG:3946",
+    "west": 1844128,
+    "east": 1849562,
+    "south": 5173693,
+    "north": 5178739
+  },
+  "frame3DPlanar": [
+    {
+      "domElementClass": "full_screen",
+      "hasItownsControls": false,
+      "range": 3000,
+      "heading": -49.6,
+      "tilt": 17,
+      "coordinates": {
+        "x": 1846457,
+        "y": 5175979
+      },
+      "sceneConfig": {
+        "cameraFov": 90,
+        "shadowMapSize": 2046,
+        "sky": {
+          "paths": [
+            "./assets/img/sky_cubemap/negX.jpg",
+            "./assets/img/sky_cubemap/posX.jpg",
+            "./assets/img/sky_cubemap/negY.jpg",
+            "./assets/img/sky_cubemap/posY.jpg",
+            "./assets/img/sky_cubemap/posZ.jpg",
+            "./assets/img/sky_cubemap/negZ.jpg"
+          ],
+          "color": {
+            "r": 0.4,
+            "g": 0.6,
+            "b": 0.8
+          },
+          "sun_position": {
+            "offset": 10,
+            "phi": 1,
+            "theta": 0.3
+          }
+        }
+      }
+    },
+    {
+      "domElementClass": "full_screen",
+      "hasItownsControls": true,
+      "range": 2000,
+      "heading": 45,
+      "tilt": 20,
+      "coordinates": {
+        "x": 1846457,
+        "y": 5175979
+      },
+      "sceneConfig": {
+        "cameraFov": 30,
+        "shadowMapSize": 2046,
+        "sky": {
+          "paths": [
+            "./assets/img/sky_cubemap/negX.jpg",
+            "./assets/img/sky_cubemap/posX.jpg",
+            "./assets/img/sky_cubemap/negY.jpg",
+            "./assets/img/sky_cubemap/posY.jpg",
+            "./assets/img/sky_cubemap/posZ.jpg",
+            "./assets/img/sky_cubemap/negZ.jpg"
+          ],
+          "color": {
+            "r": 0.4,
+            "g": 0.6,
+            "b": 0.8
+          },
+          "sun_position": {
+            "offset": 10,
+            "phi": 1,
+            "theta": 0.3
+          }
+        }
+      }
+    }
+  ],
+  "3DTilesLayers": [
+    {
+      "id": "Gratte Ciel 2018",
+      "url": "https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/2018/GratteCiel_2018/tileset.json"
+    }
+  ],
+  "base_maps": [
+    {
+      "name": "ign",
+      "source": {
+        "url": "https://wxs.ign.fr/choisirgeoportail/geoportail/r/wms",
+        "name": "GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2",
+        "version": "1.3.0",
+        "format": "image/jpeg",
+        "layer_name": "Base_Map",
+        "transparent": true
+      }
+    },
+    {
+      "name": "data_grand_lyon",
+      "source": {
+        "url": "https://imagerie.data.grandlyon.com/geoserver/grandlyon/ows",
+        "name": "ortho_latest",
+        "version": "1.3.0",
+        "format": "image/jpeg",
+        "layer_name": "Base_Map",
+        "transparent": true
+      }
+    }
+  ],
+  "elevation": {
+    "url": "https://imagerie.data.grandlyon.com/geoserver/grandlyon/ows",
+    "name": "MNT2018_Altitude_2m",
+    "format": "image/jpeg",
+    "layer_name": "wms_elevation_test",
+    "colorTextureElevationMinZ": 149,
+    "colorTextureElevationMaxZ": 622
+  },
+  "server": {
+    "url": "http://localhost:8001/blazegraph/",
+    "url_parameters": "sparql?format=json&query=",
+    "options": {}
+  },
+  "sparqlModule": {
+    "height": 500,
+    "width": 500,
+    "fontSize": 4,
+    "queries": [
+      {
+        "title": "basic_document_query",
+        "formats": {
+          "graph": "Graph",
+          "table": "Table"
+        },
+        "filepath": "./assets/queries/basic_document_query.rq"
+      },
+      {
+        "title": "get_document_references",
+        "formats": {
+          "graph": "Graph",
+          "table": "Table"
+        },
+        "filepath": "./assets/queries/get_document_references.rq"
+      }
+    ],
+    "namespaceLabels": {
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#": "rdf",
+      "http://www.w3.org/2000/01/rdf-schema#": "rdfs",
+      "http://www.w3.org/2002/07/owl#": "owl",
+      "http://www.w3.org/2001/XMLSchema#": "xsd",
+      "https://w3id.org/list#": "list",
+      "http://www.w3.org/2004/02/skos/core#": "skos",
+      "http://www.opengis.net/gml#": "gml",
+      "http://www.opengis.net/ont/gml#": "gmlowl",
+      "http://www.opengis.net/def/uom/OGC/1.0/": "units",
+      "http://www.opengis.net/ont/geosparql#": "geo",
+      "http://www.opengis.net/def/function/geosparql/": "geof",
+      "http://strdf.di.uoa.gr/ontology#": "strdf",
+      "http://www.w3.org/1999/xlink#": "xlink",
+      "https://w3id.org/express#": "express",
+      "http://standards.buildingsmart.org/IFC/DEV/IFC2x3/TC1/OWL#": "ifc",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/core#": "core",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/building#": "bldg",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/bridge#": "brid",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/landuse#": "luse",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/appearance#": "app",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/relief#": "dem",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/cityfurniture#": "frn",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/generics#": "gen",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/cityobjectgroup#": "grp",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/texturedsurface#": "tex",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/tunnel#": "tun",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/vegetation#": "veg",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/2.0/waterbody#": "wtr",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/3.0/versioning#": "vers",
+      "https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/Workspace/3.0/transactiontypes#": "type"
+    }
+  },
+  "art": {
+    "logo_src": "./assets/img/logo/logo-liris.png",
+    "info_src": "./assets/svg/info-icon.svg",
+    "help_src": "./assets/svg/help-icon.svg"
+  }
+}
+
