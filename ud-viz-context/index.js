@@ -8,8 +8,10 @@ import {
   loadMultipleJSON,
   getUriLocalname,
   fetchC3DTileFeatureWithNodeText,
+  appendWireframeToObject3D,
 } from "@ud-viz/utils_browser";
 import { Planar, DomElement3D } from "@ud-viz/frame3d";
+import { loadingScreen } from "./loadingScreen";
 import * as proj4 from "proj4";
 import * as itowns from "itowns";
 import * as THREE from "three";
@@ -40,18 +42,18 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
 
   // add base map layer
   frame3DPlanar.itownsView.addLayer(
-    new itowns.ColorLayer(configs["config"]["base_maps"][1]["name"], {
+    new itowns.ColorLayer(configs["config"]["base_maps"][0]["name"], {
       updateStrategy: {
         type: itowns.STRATEGY_DICHOTOMY,
         options: {},
       },
       source: new itowns.WMSSource({
         extent: extent,
-        name: configs["config"]["base_maps"][1].source["name"],
-        url: configs["config"]["base_maps"][1].source["url"],
-        version: configs["config"]["base_maps"][1].source["version"],
+        name: configs["config"]["base_maps"][0].source["name"],
+        url: configs["config"]["base_maps"][0].source["url"],
+        version: configs["config"]["base_maps"][0].source["version"],
         crs: extent.crs,
-        format: configs["config"]["base_maps"][1].source["format"],
+        format: configs["config"]["base_maps"][0].source["format"],
       }),
       transparent: true,
     })
@@ -184,7 +186,19 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
     Add3dDocumentFrames
   );
 
-  //   // TODO add click functions
+  //   // TODO add d3 node click functions
+
+  frame3DPlanar.itownsView
+    .getLayers()
+    .filter((el) => el.isC3DTilesLayer)
+    .forEach((layer) => {
+      layer.addEventListener(
+        itowns.C3DTILES_LAYER_EVENTS.ON_TILE_CONTENT_LOADED,
+        ({ tileContent }) => {
+          appendWireframeToObject3D(tileContent);
+        }
+      );
+    });
 
   // Create div to integrate logo image
   const logoDiv = document.createElement("div");
@@ -219,61 +233,4 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
   iconDiv.appendChild(buttonInfo);
   iconDiv.appendChild(buttonHelp);
 });
-
-/**
- *
- * Add a loading screen which add itself to document.body then remove it self when view layer initialize event it fires
- *
- * @param {itowns.PlanarView} view - itowns view
- * @param {Array<string>} labels - array of label to display
- */
-// eslint-disable-next-line no-unused-vars
-const loadingScreen = function (view, labels) {
-  const root = document.createElement("div");
-  root.classList.add("loading_screen");
-  document.body.appendChild(root);
-
-  const characterContainer = document.createElement("div");
-  characterContainer.classList.add("loading_screen_character_container");
-  root.appendChild(characterContainer);
-
-  const characterArray = [];
-  const spaceTag = "space_tag";
-  labels.forEach((label) => {
-    characterArray.push(...label.split(""));
-    characterArray.push(spaceTag); // <== add space between label
-  });
-
-  const offsetAnimation = 0.05;
-  characterArray.forEach((character, index) => {
-    const el = document.createElement("div");
-    el.classList.add("loading_screen_character");
-    if (character == spaceTag) {
-      el.style.width = "30px";
-    } else {
-      el.innerText = character;
-    }
-    el.style.animationDelay = offsetAnimation * index + "s";
-    characterContainer.appendChild(el);
-  });
-
-  const removeLoadingScreen = () => {
-    if (root.parentElement) {
-      root.style.opacity = 0;
-      root.addEventListener("transitionend", () => root.remove());
-    }
-    view.removeEventListener(
-      itowns.VIEW_EVENTS.LAYERS_INITIALIZED,
-      removeLoadingScreen
-    );
-  };
-
-  view.addEventListener(
-    itowns.VIEW_EVENTS.LAYERS_INITIALIZED,
-    removeLoadingScreen
-  );
-
-  const timeout = 5000;
-  setTimeout(removeLoadingScreen, timeout);
-};
 
