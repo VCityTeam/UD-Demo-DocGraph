@@ -20,15 +20,14 @@ WORKDIR /
 RUN git clone https://github.com/VCityTeam/UD-Viz-Template.git
 WORKDIR /UD-Viz-Template
 COPY package.json package.json
-RUN npm install
+RUN npm i
+COPY index.html index.html
+COPY loadingScreen.js src/loadingScreen.js
 COPY index.js src/index.js
 RUN npm run build
 
 # Add/overwrite default assets
-COPY config.json /UD-Viz-Template/assets/config/config.json
-COPY sparqlModule.svg /UD-Viz-Template/assets/icons/sparqlModule.svg
-COPY basic_document_query.rq /UD-Viz-Template/assets/queries/basic_document_query.rq
-COPY get_document_references.rq /UD-Viz-Template/assets/queries/get_document_references.rq
+ADD assets/* /UD-Viz-Template/assets/
 
 EXPOSE 8000
 CMD [ "node", "./bin/server.js" ]
