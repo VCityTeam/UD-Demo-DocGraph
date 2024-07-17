@@ -10,7 +10,7 @@ import {
   fetchC3DTileFeatureWithNodeText,
   appendWireframeToObject3D,
 } from "@ud-viz/utils_browser";
-import { Planar, DomElement3D } from "@ud-viz/frame3d";
+import { Planar } from "@ud-viz/frame3d";
 import { loadingScreen } from "./loadingScreen";
 import * as proj4 from "proj4";
 import * as itowns from "itowns";
@@ -158,25 +158,23 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
             .getCenter(new THREE.Vector3());
           console.log(featureResult.feature.getInfo());
 
-          // create and add frame
-          const iframe = document.createElement("iframe");
-          iframe.src = documentSrc;
-          iframe.width = 4000;
-          iframe.height = 2000;
-
-          const domElement3D = new DomElement3D(iframe);
-          console.log(domElement3D);
-
-          domElement3D.rotation.set(Math.PI * 0.5, 0, 0);
-          domElement3D.position.set(featureCentroid.x, featureCentroid.y, 300);
-
-          frame3DPlanar.appendDomElement3D(domElement3D);
-
-          const size = 200;
-          domElement3D.scale.set(size, size, size);
-
-          domElement3D.updateMatrixWorld();
-          frame3DPlanar.itownsView.notifyChange();
+          // create and add sprite to scene
+          const texture = new THREE.TextureLoader().load(documentSrc, () => {
+            const spriteMaterials = new THREE.SpriteMaterial({
+              map: texture,
+              color: 0xffffff,
+            });
+            const scale = configs["config"]["default_scale"]; // this should be defined per image in the DB or calculated dynamically
+            const sprite = new THREE.Sprite(spriteMaterials);
+            frame3DPlanar.itownsView.scene.add(sprite);
+            sprite.position.set(featureCentroid.x, featureCentroid.y, 350);
+            sprite.scale.set(
+              texture.image.width * scale,
+              texture.image.height * scale,
+              0
+            );
+            frame3DPlanar.itownsView.notifyChange();
+          });
         });
       });
 
