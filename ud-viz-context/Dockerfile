@@ -8,7 +8,7 @@ RUN apt-get update
 # Node version 14 is required. For its installation (on focal) refer to e.g.
 #  https://computingforgeeks.com/install-node-js-14-on-ubuntu-debian-linux/
 RUN apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN node --version
 RUN npm --version
@@ -20,14 +20,13 @@ WORKDIR /
 RUN git clone https://github.com/VCityTeam/UD-Viz-Template.git
 WORKDIR /UD-Viz-Template
 COPY package.json package.json
-RUN npm i
+RUN npm install
 COPY index.html index.html
-COPY loadingScreen.js src/loadingScreen.js
-COPY index.js src/index.js
+ADD src src
 RUN npm run build
 
 # Add/overwrite default assets
-ADD assets/* /UD-Viz-Template/assets/
+ADD assets assets
 
 EXPOSE 8000
 CMD [ "node", "./bin/server.js" ]
