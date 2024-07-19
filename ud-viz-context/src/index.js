@@ -9,6 +9,8 @@ import {
   getUriLocalname,
   fetchC3DTileFeatureWithNodeText,
   appendWireframeToObject3D,
+  initScene,
+  defaultConfigScene,
 } from "@ud-viz/utils_browser";
 import { Planar, DomElement3D } from "@ud-viz/frame3d";
 import { loadingScreen } from "./loadingScreen";
@@ -32,16 +34,23 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
   );
 
   // create a itowns planar view
-  const frame3DPlanar = new Planar(
-    extent,
-    configs["config"]["frame3DPlanar"][1]
-  );
+  const viewDomElement = document.createElement("div");
+  viewDomElement.classList.add("full_screen");
+  document.body.appendChild(viewDomElement);
+  const view = new itowns.PlanarView(viewDomElement, extent);
 
   // eslint-disable-next-line no-constant-condition
-  loadingScreen(frame3DPlanar.itownsView, ["UD-VIZ", "4.3.0"]);
+  loadingScreen(view, ["UD-VIZ", "4.3.0"]);
+
+  // init scene 3D
+  initScene(
+    view.camera.camera3D,
+    view.mainLoop.gfxEngine.renderer,
+    view.scene
+  );
 
   // add base map layer
-  frame3DPlanar.itownsView.addLayer(
+  view.addLayer(
     new itowns.ColorLayer(configs["config"]["base_maps"][0]["name"], {
       updateStrategy: {
         type: itowns.STRATEGY_DICHOTOMY,
@@ -63,7 +72,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
   const isTextureFormat =
     configs["config"]["elevation"]["format"] == "image/jpeg" ||
     configs["config"]["elevation"]["format"] == "image/png";
-  frame3DPlanar.itownsView.addLayer(
+  view.addLayer(
     new itowns.ElevationLayer(configs["config"]["elevation"]["layer_name"], {
       useColorTextureElevation: isTextureFormat,
       colorTextureElevationMinZ: isTextureFormat
@@ -86,7 +95,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
   // add 3DTiles layers
   configs["config"]["3DTilesLayers"].forEach((layerConfig) => {
     itowns.View.prototype.addLayer.call(
-      frame3DPlanar.itownsView,
+      view,
       new itowns.C3DTilesLayer(
         layerConfig["id"],
         {
@@ -95,7 +104,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
             url: layerConfig["url"],
           }),
         },
-        frame3DPlanar.itownsView
+        view
       )
     );
   });
@@ -113,7 +122,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
 
   // Add UI
   const sparqlWidgetDomElement = document.createElement("div");
-  frame3DPlanar.domElementUI.appendChild(sparqlWidgetDomElement);
+  viewDomElement.appendChild(sparqlWidgetDomElement);
 
   sparqlWidgetView.domElement.classList.add("widget_sparql");
   sparqlWidgetView.domElement.getElementsByTagName("input")[0].id =
@@ -146,7 +155,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
           const featureId = element.feature.value;
           const documentSrc = element.uri.value;
           const featureResult = fetchC3DTileFeatureWithNodeText(
-            frame3DPlanar.itownsView,
+            view,
             "gml_id",
             getUriLocalname(featureId)
           );
@@ -166,7 +175,11 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
             });
             const scale = configs["config"]["default_scale"]; // this should be defined per image in the DB or calculated dynamically
             const sprite = new THREE.Sprite(spriteMaterial);
-            sprite.position.set(featureCentroid.x, featureCentroid.y, featureCentroid.z + 150);
+            sprite.position.set(
+              featureCentroid.x,
+              featureCentroid.y,
+              featureCentroid.z + 150
+            );
             sprite.scale.set(
               texture.image.width * scale,
               texture.image.height * scale,
@@ -178,28 +191,43 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
               color: 0x111111,
             });
             const linePoints = [];
-            linePoints.push(new THREE.Vector3(featureCentroid.x, featureCentroid.y, featureCentroid.z));
-            linePoints.push(new THREE.Vector3(featureCentroid.x, featureCentroid.y, featureCentroid.z + 149));
-            const lineGeometry = new THREE.BufferGeometry().setFromPoints( linePoints );
-            const line = new THREE.Line( lineGeometry, lineMaterial );
+            linePoints.push(
+              new THREE.Vector3(
+                featureCentroid.x,
+                featureCentroid.y,
+                featureCentroid.z
+              )
+            );
+            linePoints.push(
+              new THREE.Vector3(
+                featureCentroid.x,
+                featureCentroid.y,
+                featureCentroid.z + 149
+              )
+            );
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints(
+              linePoints
+            );
+            const line = new THREE.Line(lineGeometry, lineMaterial);
 
             // add to scene
-            frame3DPlanar.itownsView.scene.add(sprite);
-            frame3DPlanar.itownsView.scene.add(line);
-            frame3DPlanar.itownsView.notifyChange();
+            view.scene.add(sprite);
+            view.scene.add(line);
+            sprite.updateMatrixWorld();
+            view.notifyChange();
           });
         });
       });
 
   // Get document data after layers loaded
-  frame3DPlanar.itownsView.addEventListener(
+  view.addEventListener(
     itowns.VIEW_EVENTS.LAYERS_INITIALIZED,
     Add3dDocumentFrames
   );
 
   //   // TODO add d3 node click functions
 
-  frame3DPlanar.itownsView
+  view
     .getLayers()
     .filter((el) => el.isC3DTilesLayer)
     .forEach((layer) => {
@@ -213,7 +241,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
 
   // Create div to integrate logo image
   const logoDiv = document.createElement("div");
-  frame3DPlanar.domElementUI.appendChild(logoDiv);
+  viewDomElement.appendChild(logoDiv);
   logoDiv.id = "logo-div";
   const img = document.createElement("img");
   logoDiv.appendChild(img);
@@ -223,7 +251,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
   // Create info and help icons
   const iconDiv = document.createElement("div");
   iconDiv.id = "icon-div";
-  frame3DPlanar.domElementUI.appendChild(iconDiv);
+  viewDomElement.appendChild(iconDiv);
 
   const buttonInfo = document.createElement("a");
   buttonInfo.title = "More information";
