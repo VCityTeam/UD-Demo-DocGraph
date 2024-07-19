@@ -10,7 +10,7 @@ import {
   fetchC3DTileFeatureWithNodeText,
   appendWireframeToObject3D,
 } from "@ud-viz/utils_browser";
-import { Planar } from "@ud-viz/frame3d";
+import { Planar, DomElement3D } from "@ud-viz/frame3d";
 import { loadingScreen } from "./loadingScreen";
 import * as proj4 from "proj4";
 import * as itowns from "itowns";
@@ -158,21 +158,34 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
             .getCenter(new THREE.Vector3());
           console.log(featureResult.feature.getInfo());
 
-          // create and add sprite to scene
+          // create sprite
           const texture = new THREE.TextureLoader().load(documentSrc, () => {
-            const spriteMaterials = new THREE.SpriteMaterial({
+            const spriteMaterial = new THREE.SpriteMaterial({
               map: texture,
               color: 0xffffff,
             });
             const scale = configs["config"]["default_scale"]; // this should be defined per image in the DB or calculated dynamically
-            const sprite = new THREE.Sprite(spriteMaterials);
-            frame3DPlanar.itownsView.scene.add(sprite);
-            sprite.position.set(featureCentroid.x, featureCentroid.y, 350);
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.position.set(featureCentroid.x, featureCentroid.y, featureCentroid.z + 150);
             sprite.scale.set(
               texture.image.width * scale,
               texture.image.height * scale,
               0
             );
+
+            // create line
+            const lineMaterial = new THREE.LineBasicMaterial({
+              color: 0x111111,
+            });
+            const linePoints = [];
+            linePoints.push(new THREE.Vector3(featureCentroid.x, featureCentroid.y, featureCentroid.z));
+            linePoints.push(new THREE.Vector3(featureCentroid.x, featureCentroid.y, featureCentroid.z + 149));
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints( linePoints );
+            const line = new THREE.Line( lineGeometry, lineMaterial );
+
+            // add to scene
+            frame3DPlanar.itownsView.scene.add(sprite);
+            frame3DPlanar.itownsView.scene.add(line);
             frame3DPlanar.itownsView.notifyChange();
           });
         });
