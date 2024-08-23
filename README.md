@@ -5,7 +5,7 @@ A web application for visualizing multimedia document and 3D city models using R
   * In particular the SPARQL and Workspace modules from [UD-Viz](https://github.com/VCityTeam/UD-Viz) is used to visualize semantic urban data in the form of RDF
 * [Blazegraph](https://blazegraph.com/) an RDF-Store for storing and serving semantic graph data with a SPARQL REST API
 
-![image](https://github.com/VCityTeam/UD-Demo-Workspace-GratteCiel/assets/23373264/27f9d2b0-ca1e-4779-a213-ba6447f16785)
+![image](docgraph-demo.png)
 
 ### Component Diagram
 ![SPARQL POC Component Diagram](./UD-Demo_SPARQL_POC_Component_Diagram.svg)
