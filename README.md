@@ -18,28 +18,12 @@ The following sections detail how to setup the demo.
 
 * [Install Docker](https://docs.docker.com/engine/install/)
 
-### Repository setup
-Build and run the docker containers
-```bash
-docker compose up
-```
-
 ### Component Setup
-By default, the following ports are used by the following services:
-- 8000: `UD-Viz`
-- 8001: `Blazegraph`
-
-> [!NOTE]
-> To change the default ports (`8000` and `8001`), you must:
-> 1. Update your [.env](./.env) file to use these ports
-> 2. Make sure to set the `sparqlModule/url` port in the [ud-viz-context/assets/config/config.json file](./ud-viz-context/assets/config/config.json) to use the new value for the new Blazegraph port.
->    - This also may imply rebuilding the `udviz` container:
->      ```bash
->      docker compose stop udviz
->      docker compose build udviz
->      docker compose up udviz
->      ```
-> 3. Use the new port when [uploading the dataset to Blazegraph](#upload-rdf-store-dataset)
+First, clone this repository
+```bash
+git clone https://github.com/VCityTeam/UD-Demo-DocGraph.git
+cd UD-Demo-DocGraph
+```
 
 The following sections will describe how to configure this file for each component. 
 
@@ -59,3 +43,18 @@ curl -X POST --data-binary 'uri=https://raw.githubusercontent.com/VCityTeam/UD-G
 Now the UD-Viz demo is ready and can be accessed from [localhost:8000](http://localhost:8000)
 The Blazegraph GUI can also be accessed from [localhost:8001](http://localhost:8001)
 
+> [!NOTE]
+> By default, the following ports are used by the following services:
+> - 8000: `UD-Viz`
+> - 8001: `Blazegraph`
+>
+> To change these, you must:
+> 1. Update your [.env](./.env) file to use these ports
+> 2. Make sure to set the `sparqlModule/url` port in the [ud-viz-context/assets/config/config.json file](./ud-viz-context/assets/config/config.json) to use the new value for the new Blazegraph port.
+>    - This also may imply rebuilding the `udviz` container:
+>      ```bash
+>      docker compose stop udviz
+>      docker compose build udviz
+>      docker compose up udviz
+>      ```
+> 3. Use the new port when [uploading the dataset to Blazegraph](#upload-rdf-store-dataset)
