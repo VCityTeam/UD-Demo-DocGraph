@@ -30,14 +30,16 @@ By default, the following ports are used by the following services:
 - 8001: `Blazegraph`
 
 > [!NOTE]
-> If changing the default ports (`8000` and `8001`), you must update your [.env](./.env) file and make sure to set the `sparqlModule/url` port in the [ud-viz-context/assets/config/config.json file](./ud-viz-context/assets/config/config.json) to use the same value for the new Blazegraph port.
-> This also may imply rebuilding the `udviz` container:
-> ```bash
-> docker compose stop udviz
-> docker compose build udviz
-> docker compose up udviz
-> ```
-> Additionally, don't forget to use the new port when [uploading the dataset to Blazegraph](#upload-rdf-store-dataset)
+> To change the default ports (`8000` and `8001`), you must:
+> 1. Update your [.env](./.env) file to use these ports
+> 2. Make sure to set the `sparqlModule/url` port in the [ud-viz-context/assets/config/config.json file](./ud-viz-context/assets/config/config.json) to use the new value for the new Blazegraph port.
+>    - This also may imply rebuilding the `udviz` container:
+>      ```bash
+>      docker compose stop udviz
+>      docker compose build udviz
+>      docker compose up udviz
+>      ```
+> 3. Use the new port when [uploading the dataset to Blazegraph](#upload-rdf-store-dataset)
 
 The following sections will describe how to configure this file for each component. 
 
