@@ -1,58 +1,59 @@
-# UD-Demo-Graph-SPARQL
+# UD-Demo-DocGraph
 
-[![Build Status](https://app.travis-ci.com/VCityTeam/UD-Demo-Graph-SPARQL.svg?branch=master)](https://app.travis-ci.com/github/VCityTeam/UD-Demo-Graph-SPARQL)
+A web application for visualizing multimedia document and 3D city models using RDF semantic graphs:
+* [UD-Viz](https://github.com/VCityTeam/UD-Viz) a frontend web application for urban data visualization
+  * In particular the SPARQL and Workspace modules from [UD-Viz](https://github.com/VCityTeam/UD-Viz) is used to visualize semantic urban data in the form of RDF
+* [Blazegraph](https://blazegraph.com/) an RDF-Store for storing and serving semantic graph data with a SPARQL REST API
 
-A template repository for creating demos for visualizing RDF semantic graphs alongside 3D City models using:
-* [UD-Viz](https://github.com/VCityTeam/UD-Viz) as a frontend web application for urban data visualization
-  * In particular the [SPARQL module](https://github.com/VCityTeam/UD-Viz/tree/master/src/Widgets/Extensions/SPARQL) is used to visualize semantic urban data in the form of RDF
-* [Strabon RDF Store](http://www.strabon.di.uoa.gr/) an RDF-Store for storing and serving geospatial semantic graph data in the form of RDF
-* [PostGIS](https://postgis.net/) a geospatial database extension of [PostgreSQL](https://www.postgresql.org/) used here as a backend database for Strabon
+![image](https://github.com/VCityTeam/UD-Demo-Workspace-GratteCiel/assets/23373264/27f9d2b0-ca1e-4779-a213-ba6447f16785)
 
 ### Component Diagram
 ![SPARQL POC Component Diagram](./UD-Demo_SPARQL_POC_Component_Diagram.svg)
 
 ## Installation
 
+The following sections detail how to setup the demo.
+
 ### Pre-requisites 
 
 * [Install Docker](https://docs.docker.com/engine/install/)
-* [Install Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Repository setup
-To begin create a new Github repository using this template:
-
-![image](https://user-images.githubusercontent.com/23373264/217045942-5f994e2d-431e-4620-bf76-f1cc1f1d7673.png)
-
-Once generated, use the new repository can be cloned:
-```
-git clone [your new repository URL]
+Build and run the docker containers
+```bash
+docker compose up
 ```
 
 ### Component Setup
-To configure the demo and the components that support it edit the `.env` file to be launched with docker-compose. By default the following ports are used by the following services:
-- 8996: `PostGIS`
-- 8997: `Strabon`
-- 8998: `UD-Viz`
+By default, the following ports are used by the following services:
+- 8000: `UD-Viz`
+- 8001: `Blazegraph`
+
+> [!NOTE]
+> If changing the default ports (`8000` and `8001`), you must update your [.env](./.env) file and make sure to set the `sparqlModule/url` port in the [ud-viz-context/assets/config/config.json file](./ud-viz-context/assets/config/config.json) to use the same value for the new Blazegraph port.
+> This also may imply rebuilding the `udviz` container:
+> ```bash
+> docker compose stop udviz
+> docker compose build udviz
+> docker compose up udviz
+> ```
+> Additionally, don't forget to use the new port when [uploading the dataset to Blazegraph](#upload-rdf-store-dataset)
 
 The following sections will describe how to configure this file for each component. 
 
 ### Build Images and run containers
-First, build the PostGIS, Strabon, and UD-Viz docker images and run their containers:
-```
-docker-compose up
-```
 
-**Note:** Make sure to set the `sparqlModule/url` port in the `./ud-viz-context/config.json` file to the same port for the _Strabon_ container declared in the `.env` file. If these ports are ever changed after building the images, the _UD-Viz_ image must be rebuilt:
+Then build the Blazegraph docker image and run its container:
 ```
-docker-compose rm udviz
-docker-compose build udviz
+docker compose up
 ```
 
 ### Upload RDF-Store Dataset
-All files in the [data folder](./strabon-context/data) are copied into the Strabon container at `/data`. To upload these files into Strabon to be used by the sparqlModule:
-1. Open a web browser and navigate to `localhost:8997/strabon`
-2. From the left menu, click *Explore/Modify operations* then *Store*
-3. Copy and paste the local path of each file in the data folder as `file:///data/[file to upload]` into the *URI Input* field and click *Store from URI*
-   - ⚠️ You may be asked to enter the Strabon administrative credentials here. However, these credentials currently cannot be changed from the `.env` file. See issue [#1](https://github.com/VCityTeam/UD-Demo-Graph-SPARQL/issues/1).
+To upload the graph datafile into Blazegraph run the following command:
+```bash
+curl -X POST --data-binary 'uri=https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/test-data/RDF/documents/GratteCiel_2018_remarkable.ttl' 'http://127.0.0.1:8001/blazegraph/sparql'
+```
 
-Now the demo is ready and can be accessed from `localhost:8998`
+Now the UD-Viz demo is ready and can be accessed from [localhost:8000](http://localhost:8000)
+The Blazegraph GUI can also be accessed from [localhost:8001](http://localhost:8001)
+
