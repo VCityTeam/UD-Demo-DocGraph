@@ -8,7 +8,7 @@ A web application for visualizing multimedia document and 3D city models using R
 ![image](docgraph-demo.png)
 
 ### Component Diagram
-![SPARQL POC Component Diagram](./UD-Demo_SPARQL_POC_Component_Diagram.svg)
+<img src="./UD-Demo_SPARQL_POC_Component_Diagram.svg" width="800px">
 
 ## Installation
 
