@@ -132,6 +132,14 @@
     "fontSize": 4,
     "queries": [
       {
+        "title": "doc_bldg_ref_query",
+        "formats": {
+          "graph": "Graph",
+          "table": "Table"
+        },
+        "filepath": "./assets/queries/doc_bldg_ref_query.rq"
+      },
+      {
         "title": "basic_document_query",
         "formats": {
           "graph": "Graph",
