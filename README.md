@@ -37,7 +37,7 @@ docker compose up
 ### Upload RDF-Store Dataset
 To upload the graph datafile into Blazegraph run the following command:
 ```bash
-curl -X POST --data-binary 'uri=https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Transformations/test-data/RDF/documents/GratteCiel_2018_remarkable.ttl' 'http://127.0.0.1:8001/blazegraph/sparql'
+curl -X POST --data-binary 'uri=https://raw.githubusercontent.com/VCityTeam/UD-Demo-DocGraph/master/data/GratteCiel_2018_remarkable.ttl' 'http://127.0.0.1:8001/blazegraph/sparql'
 ```
 
 Now the UD-Viz demo is ready and can be accessed from [localhost:8000](http://localhost:8000)
