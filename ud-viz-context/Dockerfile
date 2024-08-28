@@ -22,6 +22,7 @@ WORKDIR /UD-Viz-Template
 COPY package.json package.json
 RUN npm install
 COPY index.html index.html
+ADD webpack.config.js webpack.config.js
 ADD src src
 RUN npm run build
 
