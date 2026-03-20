@@ -452,7 +452,7 @@ loadMultipleJSON(["./assets/config/config.json"]).then((configs) => {
 
   const buttonHelp = document.createElement("a");
   buttonHelp.title = "Help/Tutorial";
-  buttonHelp.href = "TODO";
+  buttonHelp.href = "https://github.com/VCityTeam/UD-Demo-Workspace-GratteCiel/blob/master/sparql_user_guide.md";
   const iconHelp = document.createElement("img");
   iconHelp.src = configs["config"]["art"].help_src;
   iconHelp.id = "iconHelp";
