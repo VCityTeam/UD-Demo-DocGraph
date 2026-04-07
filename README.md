@@ -7,6 +7,10 @@ A web application for visualizing multimedia document and 3D city models using R
 
 ![image](docgraph-demo.png)
 
+| Graph view | 3D view |
+|------------|---------|
+| ![Graph view](./graph_view.gif) | ![3D view](./3D_view.gif) |
+
 ### Component Diagram
 <img src="./UD-Demo_SPARQL_POC_Component_Diagram.svg" width="800px">
 
@@ -37,7 +41,8 @@ docker compose up
 ### Upload RDF-Store Dataset
 To upload the graph datafile into Blazegraph run the following command:
 ```bash
-curl -X POST --data-binary 'uri=https://raw.githubusercontent.com/VCityTeam/UD-Demo-DocGraph/master/data/GratteCiel_2018_remarkable.ttl' 'http://127.0.0.1:8001/blazegraph/sparql'
+cd data
+curl  -H 'Content-Type:application/x-turtle' -X POST --data-binary '@GratteCiel_2018_remarkable.ttl' 'http://127.0.0.1:8001/blazegraph/sparql'
 ```
 
 Now the UD-Viz demo is ready and can be accessed from [localhost:8000](http://localhost:8000)
