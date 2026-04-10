@@ -1,0 +1,412 @@
+@prefix core:  <https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/3.0/core#> .
+@prefix bldg:  <https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/3.0/building#> .
+@prefix doc:   <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document#> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix data:  <https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Datasets/GratteCiel_2018_split_v3#> .
+@prefix geo:   <http://www.opengis.net/ont/geosparql#> .
+@prefix gmlowl: <http://www.opengis.net/ont/gml#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+
+<https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Datasets/GratteCiel_2018_split_v3_remarkable>
+    a owl:Ontology ;
+    owl:imports
+        <http://www.opengis.net/ont/geosparql> ,
+        <http://www.opengis.net/ont/gml> ,
+        <http://www.w3.org/2004/02/skos/core> ,
+        <https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/3.0/building.ttl> ,
+        <https://dataset-dl.liris.cnrs.fr/rdf-owl-urban-data-ontologies/Ontologies/Document/3.0/document> ,
+        <https://raw.githubusercontent.com/VCityTeam/UD-Graph/master/Ontologies/CityGML/3.0/core.ttl> .
+
+# ════════════════════════════════════════════════════════════════════════════
+# PURPOSE-TYPE VOCABULARY
+# ════════════════════════════════════════════════════════════════════════════
+
+data:purposeTypeScheme a owl:NamedIndividual, skos:ConceptScheme ;
+    skos:prefLabel "Document Purpose Types"@en .
+
+data:purposeType_aerialView a owl:NamedIndividual, doc:PurposeTypeValue ;
+    skos:prefLabel "Aerial View"@en ;
+    skos:inScheme data:purposeTypeScheme .
+
+data:purposeType_cadastralMap a owl:NamedIndividual, doc:PurposeTypeValue ;
+    skos:prefLabel "Cadastral Map"@en ;
+    skos:inScheme data:purposeTypeScheme .
+
+data:purposeType_renovationReport a owl:NamedIndividual, doc:PurposeTypeValue ;
+    skos:prefLabel "Renovation Report"@en ;
+    skos:inScheme data:purposeTypeScheme .
+
+data:purposeType_streetView a owl:NamedIndividual, doc:PurposeTypeValue ;
+    skos:prefLabel "Street View Video"@en ;
+    skos:inScheme data:purposeTypeScheme .
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAG INDIVIDUALS (doc:Tag)
+# ════════════════════════════════════════════════════════════════════════════
+
+data:tag_gratteCiel a owl:NamedIndividual, doc:Tag ;
+    doc:Tag.text "Gratte-ciel"@fr ;
+    doc:Tag.count 4 .
+
+data:tag_aerialView a owl:NamedIndividual, doc:Tag ;
+    doc:Tag.text "Aerial view"@en ;
+    doc:Tag.count 1 .
+
+data:tag_villeurbanne a owl:NamedIndividual, doc:Tag ;
+    doc:Tag.text "Villeurbanne"@fr ;
+    doc:Tag.count 4 .
+
+data:tag_cadastre a owl:NamedIndividual, doc:Tag ;
+    doc:Tag.text "Cadastre"@fr ;
+    doc:Tag.count 1 .
+
+data:tag_renovation a owl:NamedIndividual, doc:Tag ;
+    doc:Tag.text "Renovation"@en ;
+    doc:Tag.count 1 .
+
+data:tag_streetView a owl:NamedIndividual, doc:Tag ;
+    doc:Tag.text "Street view"@en ;
+    doc:Tag.count 1 .
+
+# ════════════════════════════════════════════════════════════════════════════
+# CITY-SIDE TEMPORAL SYSTEM: urban features with lifespan
+#
+# Buildings are declared as core:AbstractFeatureWithLifespan instances,
+#     with creationDate reflecting when each block was erected (1929–1934).
+#     This establishes the city's own temporal axis alongside the documentary
+#     temporal axis introduced below.
+#
+# The city timeline (construction 1929–1934, renovation ~2000) and the
+#     documentary timeline (photograph 1936, annotations 2020–2022) are
+#     distinct but connected: documents describe city states from specific
+#     periods, and city-state lifespans can be correlated with document
+#     coveragePeriods.
+# ════════════════════════════════════════════════════════════════════════════
+
+# Coarsest scale: district enclosing all buildings
+data:GratteCielDistrict a owl:NamedIndividual, core:AbstractFeatureWithLifespan ;
+    skos:prefLabel "Cité des Gratte-Ciel district"@en ,
+                   "Cité des Gratte-Ciel"@fr ;
+    core:AbstractFeatureWithLifespan.creationDate "1934-01-01T00:00:00"^^xsd:dateTime ;
+    rdfs:comment "Urban district created at the completion of the Gratte-Ciel ensemble."@en .
+
+# Buildings: building scale
+data:BU_69266BO56_0 a owl:NamedIndividual, bldg:Building ;
+    skos:prefLabel "BU_69266BO56_0" ;
+    core:AbstractFeatureWithLifespan.creationDate "1929-01-01T00:00:00"^^xsd:dateTime ;
+    core:AbstractSpace.boundary data:RoofSurface_165, data:WallSurface_165 .
+
+data:BU_69266BO56_1 a owl:NamedIndividual, bldg:Building ;
+    skos:prefLabel "BU_69266BO56_1" ;
+    core:AbstractFeatureWithLifespan.creationDate "1930-01-01T00:00:00"^^xsd:dateTime ;
+    core:AbstractSpace.boundary data:RoofSurface_166, data:WallSurface_166 .
+
+data:BU_69266BO56_2 a owl:NamedIndividual, bldg:Building ;
+    skos:prefLabel "BU_69266BO56_2" ;
+    core:AbstractFeatureWithLifespan.creationDate "1933-01-01T00:00:00"^^xsd:dateTime ;
+    core:AbstractSpace.boundary data:RoofSurface_167, data:WallSurface_167 .
+
+data:BU_69266BO56_3 a owl:NamedIndividual, bldg:Building ;
+    skos:prefLabel "BU_69266BO56_3" ;
+    core:AbstractFeatureWithLifespan.creationDate "1934-01-01T00:00:00"^^xsd:dateTime ;
+    core:AbstractSpace.boundary data:RoofSurface_168, data:WallSurface_168 .
+
+# Finer scale: a BuildingPart (tower block) within BU_69266BO56_0
+data:BU_69266BO56_0_tower a owl:NamedIndividual, bldg:BuildingPart ;
+    skos:prefLabel "Tour nord – BU_69266BO56_0"@fr ;
+    rdfs:comment "Northern tower block of building BU_69266BO56_0."@en .
+
+data:BU_69266BO56_0
+    bldg:Building.buildingPart data:BU_69266BO56_0_tower .
+
+# Finest scale: a wall surface (facade) of BU_69266BO56_0
+data:WallSurface_165 a owl:NamedIndividual, core:AbstractFeatureWithLifespan ;
+    skos:prefLabel "Facade nord – BU_69266BO56_0"@fr ;
+    rdfs:comment "Northern facade of building BU_69266BO56_0, identifiable in the 1936 aerial photograph."@en .
+
+# ════════════════════════════════════════════════════════════════════════════
+# OWL-TIME INTERVALS (shared across documents and references)
+# ════════════════════════════════════════════════════════════════════════════
+
+# City state depicted by the 1936 aerial photograph
+data:interval_1936 a owl:NamedIndividual, time:Interval ;
+    time:hasBeginning data:instant_1936_begin ;
+    time:hasEnd       data:instant_1936_end .
+
+data:instant_1936_begin a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "1936"^^xsd:gYear .
+
+data:instant_1936_end a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "1936"^^xsd:gYear .
+
+# Period covered by the 1987 cadastral map
+data:interval_1987 a owl:NamedIndividual, time:Interval ;
+    time:hasBeginning data:instant_1987_begin ;
+    time:hasEnd       data:instant_1987_end .
+
+data:instant_1987_begin a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "1987"^^xsd:gYear .
+
+data:instant_1987_end a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "1987"^^xsd:gYear .
+
+# Period covered by the 2001 renovation report
+data:interval_2001 a owl:NamedIndividual, time:Interval ;
+    time:hasBeginning data:instant_2001_begin ;
+    time:hasEnd       data:instant_2001_end .
+
+data:instant_2001_begin a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "2001"^^xsd:gYear .
+
+data:instant_2001_end a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "2003"^^xsd:gYear .
+
+# Period covered by the 2024 street-view video
+data:interval_2024 a owl:NamedIndividual, time:Interval ;
+    time:hasBeginning data:instant_2024_begin ;
+    time:hasEnd       data:instant_2024_end .
+
+data:instant_2024_begin a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "2024"^^xsd:gYear .
+
+data:instant_2024_end a owl:NamedIndividual, time:Instant ;
+    time:inXSDgYear "2024"^^xsd:gYear .
+
+# ════════════════════════════════════════════════════════════════════════════
+# DOCUMENT VERSION CHAIN for document_1
+#
+# The 1936 aerial photograph exists in three successive documentary states,
+# each representing a distinct curatorial operation:
+#   document_1_scan      – original digitisation from a glass-plate negative (2015)
+#   document_1_restored  – contrast-enhanced, dust-corrected surrogate (2018)
+#   document_1           – semantically annotated version linked to city objects (2020)
+#
+# prov:wasRevisionOf records the provenance chain between versions.
+# Each version is a full doc:Document instance (with its own lifespan on the
+# documentary timeline), while the city state being depicted remains 1936.
+#
+# The version chain shows that documents, like city objects, have their
+#     own lifespan as AbstractFeatureWithLifespan instances.
+# ════════════════════════════════════════════════════════════════════════════
+
+# Version 1 – original digitised scan (2015)
+data:document_1_scan a owl:NamedIndividual, doc:Document ;
+    doc:Document.title "Vue aérienne – scan original (négatif sur verre, 1936)"@fr ;
+    doc:Document.uri
+        "https://archives.villeurbanne.fr/gratte-ciel-1936-scan-original.tiff"^^xsd:anyURI ;
+    core:AbstractFeatureWithLifespan.creationDate "2015-04-10T00:00:00"^^xsd:dateTime ;
+    doc:Document.tag data:tag_gratteCiel, data:tag_aerialView, data:tag_villeurbanne ;
+    rdfs:comment "First digitisation of the original glass-plate negative."@en .
+
+# Version 2 – restored/contrast-enhanced surrogate (2018)
+data:document_1_restored a owl:NamedIndividual, doc:Document ;
+    doc:Document.title "Vue aérienne – version restaurée (2018)"@fr ;
+    doc:Document.uri
+        "https://archives.villeurbanne.fr/gratte-ciel-1936-restored.jpg"^^xsd:anyURI ;
+    core:AbstractFeatureWithLifespan.creationDate "2018-11-20T00:00:00"^^xsd:dateTime ;
+    doc:Document.tag data:tag_gratteCiel, data:tag_aerialView, data:tag_villeurbanne ;
+    prov:wasRevisionOf data:document_1_scan ;
+    rdfs:comment "Contrast-enhanced, dust-corrected derivative of the original scan."@en .
+
+# Version 3 – semantically annotated version linked to city objects (2020–)
+# declared as doc:Document (subclass of core:AbstractFeatureWithLifespan),
+#     making this document a first-class versioned urban feature.
+# four typed references link it to multiple document types.
+data:document_1 a owl:NamedIndividual, doc:Document ;
+    doc:Document.title "Vue aérienne de la cité des Gratte-Ciel en 1936" ;
+    doc:Document.uri
+        "https://upload.wikimedia.org/wikipedia/commons/a/a8/Vue_a%C3%A9rienne_de_la_cit%C3%A9_des_Gratte-Ciel_en_1936.jpg"^^xsd:anyURI ;
+    rdfs:seeAlso
+        "https://commons.wikimedia.org/wiki/File:Vue_a%C3%A9rienne_de_la_cit%C3%A9_des_Gratte-Ciel_en_1936.jpg"^^xsd:anyURI ;
+    core:AbstractFeatureWithLifespan.creationDate "2020-03-11T00:00:00"^^xsd:dateTime ;
+    doc:Document.tag data:tag_gratteCiel, data:tag_aerialView, data:tag_villeurbanne ;
+    prov:wasRevisionOf data:document_1_restored ;
+    # references were added at different dates, showing the document's
+    #     interpretive layer evolving independently of the city objects it describes.
+    doc:Document.referringTo
+        data:reference_1 ,
+        data:reference_2 ,
+        data:reference_3 ,
+        data:reference_4 ,
+        data:reference_5 .
+
+# ════════════════════════════════════════════════════════════════════════════
+# HETEROGENEOUS DOCUMENT TYPES
+#
+# Three additional documents of different media types link to the same
+# urban scene (Gratte-Ciel buildings). Together with document_1 (photograph)
+# they form a heterogeneous documentary corpus over the same urban objects:
+#   document_2 – cadastral map (1987)
+#   document_3 – renovation report (2001–2003)
+#   document_4 – street-view video (2024)
+# ════════════════════════════════════════════════════════════════════════════
+
+# Cadastral map covering all four buildings (1987 state)
+data:document_2 a owl:NamedIndividual, doc:Document ;
+    doc:Document.title "Plan cadastral – Cité des Gratte-Ciel (1987)"@fr ;
+    doc:Document.uri
+        "https://cadastre.gouv.fr/gratteciel/plan-1987.pdf"^^xsd:anyURI ;
+    core:AbstractFeatureWithLifespan.creationDate "1987-06-01T00:00:00"^^xsd:dateTime ;
+    doc:Document.tag data:tag_gratteCiel, data:tag_cadastre, data:tag_villeurbanne ;
+    doc:Document.referringTo
+        data:reference_cad_1 ,
+        data:reference_cad_2 ,
+        data:reference_cad_district .
+
+# Renovation report covering the 2001–2003 rehabilitation works
+data:document_3 a owl:NamedIndividual, doc:Document ;
+    doc:Document.title "Rapport de réhabilitation – Gratte-Ciel (2001–2003)"@fr ;
+    doc:Document.uri
+        "https://archives.villeurbanne.fr/rehabilitation-2001-rapport.pdf"^^xsd:anyURI ;
+    core:AbstractFeatureWithLifespan.creationDate "2003-12-15T00:00:00"^^xsd:dateTime ;
+    doc:Document.tag data:tag_gratteCiel, data:tag_renovation, data:tag_villeurbanne ;
+    doc:Document.referringTo
+        data:reference_reno_1 ,
+        data:reference_reno_district .
+
+# Street-view video documenting the current state (2024)
+data:document_4 a owl:NamedIndividual, doc:Document ;
+    doc:Document.title "Visite virtuelle – Gratte-Ciel (2024)"@fr ;
+    doc:Document.uri
+        "https://youtube.com/watch?v=gratteciel2024"^^xsd:anyURI ;
+    core:AbstractFeatureWithLifespan.creationDate "2024-05-01T00:00:00"^^xsd:dateTime ;
+    doc:Document.tag data:tag_gratteCiel, data:tag_streetView, data:tag_villeurbanne ;
+    doc:Document.referringTo
+        data:reference_sv_1 ,
+        data:reference_sv_facade .
+
+# ════════════════════════════════════════════════════════════════════════════
+# REFERENCES for document_1 (aerial photograph)
+#
+# Each reference was asserted at a different date (2020, 2021, 2022, 2023),
+#     showing the document's interpretive layer evolving over time.
+# referringDate  = when the annotation link was asserted (documentary timeline)
+#     coveragePeriod = the period of the city state being depicted (city timeline)
+#     These two dates diverge: the photograph depicts 1936; annotations accumulate
+#     decades later. The city buildings were created 1929–1934 (city lifespan).
+# reference_1–4 target Buildings or BuildingParts (building/part scale);
+#     reference_5 targets the district (coarser scale) – a single photograph
+#     simultaneously documents individual buildings and the overall district.
+# ════════════════════════════════════════════════════════════════════════════
+
+# Reference 1 – initial linkage to BU_69266BO56_0 (2020-03-11)
+data:reference_1 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2020-03-11T15:47:26"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1936 ;
+    doc:Reference.purposeType      data:purposeType_aerialView ;
+    doc:Reference.referenceText    "Vue aérienne de la cité des Gratte-Ciel en 1936" ;
+    doc:Reference.referringTo      data:BU_69266BO56_0 .
+
+# Reference 2 – linkage to BU_69266BO56_1, same curation session (2020-03-11)
+data:reference_2 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2020-03-11T15:47:26"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1936 ;
+    doc:Reference.purposeType      data:purposeType_aerialView ;
+    doc:Reference.referenceText    "Vue aérienne de la cité des Gratte-Ciel en 1936" ;
+    doc:Reference.referringTo      data:BU_69266BO56_1 .
+
+# Reference 3 – annotation extended to BU_69266BO56_2 in a later curation pass (2021-06-15)
+data:reference_3 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2021-06-15T09:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1936 ;
+    doc:Reference.purposeType      data:purposeType_aerialView ;
+    doc:Reference.referenceText    "Aerial view – additional building BU_69266BO56_2 identified" ;
+    doc:Reference.referringTo      data:BU_69266BO56_2 .
+
+# Reference 4 – finer-scale annotation: BuildingPart (2022-09-01)
+data:reference_4 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2022-09-01T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1936 ;
+    doc:Reference.purposeType      data:purposeType_aerialView ;
+    doc:Reference.referenceText    "Tower block of BU_69266BO56_0 visible in the foreground" ;
+    doc:Reference.referringTo      data:BU_69266BO56_0_tower .
+
+# Reference 5 – coarser-scale annotation: district (2023-03-20)
+data:reference_5 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2023-03-20T10:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1936 ;
+    doc:Reference.purposeType      data:purposeType_aerialView ;
+    doc:Reference.referenceText    "The aerial photograph documents the entire Gratte-Ciel district as built by 1936" ;
+    doc:Reference.referringTo      data:GratteCielDistrict .
+
+# ════════════════════════════════════════════════════════════════════════════
+# REFERENCES for document_2 (cadastral map)
+# ════════════════════════════════════════════════════════════════════════════
+
+# Cadastral reference to building BU_69266BO56_0
+data:reference_cad_1 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "1987-06-01T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1987 ;
+    doc:Reference.purposeType      data:purposeType_cadastralMap ;
+    doc:Reference.referenceText    "Parcelle cadastrale BU_69266BO56_0 – état 1987" ;
+    doc:Reference.referringTo      data:BU_69266BO56_0 .
+
+# Cadastral reference to building BU_69266BO56_1
+data:reference_cad_2 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "1987-06-01T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1987 ;
+    doc:Reference.purposeType      data:purposeType_cadastralMap ;
+    doc:Reference.referenceText    "Parcelle cadastrale BU_69266BO56_1 – état 1987" ;
+    doc:Reference.referringTo      data:BU_69266BO56_1 .
+
+# Cadastral map also covers the overall district (coarser scale)
+data:reference_cad_district a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "1987-06-01T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_1987 ;
+    doc:Reference.purposeType      data:purposeType_cadastralMap ;
+    doc:Reference.referenceText    "Emprise cadastrale de la Cité des Gratte-Ciel – périmètre complet" ;
+    doc:Reference.referringTo      data:GratteCielDistrict .
+
+# ════════════════════════════════════════════════════════════════════════════
+# REFERENCES for document_3 (renovation report)
+#
+# The renovation report was produced in 2003 but describes a city state
+#     from 2001–2003 (renovation works). The building itself was created in 1929.
+#     Three dates coexist: city creation (1929), works period (2001–2003),
+#     document creation (2003). This makes the dual-timeline distinction explicit.
+# ════════════════════════════════════════════════════════════════════════════
+
+# Renovation reference to building BU_69266BO56_0 (primary works site)
+data:reference_reno_1 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2003-12-15T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_2001 ;
+    doc:Reference.purposeType      data:purposeType_renovationReport ;
+    doc:Reference.referenceText    "Travaux de réhabilitation de la façade principale, BU_69266BO56_0" ;
+    doc:Reference.referringTo      data:BU_69266BO56_0 .
+
+# Renovation report also describes the district-level scope (coarser scale)
+data:reference_reno_district a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2003-12-15T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_2001 ;
+    doc:Reference.purposeType      data:purposeType_renovationReport ;
+    doc:Reference.referenceText    "Programme de réhabilitation global de la Cité des Gratte-Ciel" ;
+    doc:Reference.referringTo      data:GratteCielDistrict .
+
+# ════════════════════════════════════════════════════════════════════════════
+# REFERENCES for document_4 (street-view video)
+#
+# The video depicts both a building-level object (BU_69266BO56_0) and
+#     its individual facade (WallSurface_165), illustrating that a single
+#     documentary resource can link to features at both building and facade
+#     granularity simultaneously.
+# ════════════════════════════════════════════════════════════════════════════
+
+# Street-view reference to building BU_69266BO56_0
+data:reference_sv_1 a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2024-05-01T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_2024 ;
+    doc:Reference.purposeType      data:purposeType_streetView ;
+    doc:Reference.referenceText    "Street-level video of BU_69266BO56_0 (2024 state)" ;
+    doc:Reference.referringTo      data:BU_69266BO56_0 .
+
+# Street-view reference to facade at finest granularity (facade scale)
+data:reference_sv_facade a owl:NamedIndividual, doc:Reference ;
+    doc:Reference.referringDate    "2024-05-01T00:00:00"^^xsd:dateTime ;
+    doc:Reference.coveragePeriod   data:interval_2024 ;
+    doc:Reference.purposeType      data:purposeType_streetView ;
+    doc:Reference.referenceText    "Facade WallSurface_165 fully visible at 00:42 in the video" ;
+    doc:Reference.referringTo      data:WallSurface_165 .
